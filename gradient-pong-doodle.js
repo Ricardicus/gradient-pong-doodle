@@ -35,7 +35,7 @@ var learningRate = [0.003288, 0.003288];
 var learningRateMin = 0.00000001;
 var learningRateMax = 10.0;
 
-var updateSpeed = 10;
+var updateSpeed = 5;
 
 // Adam optimization algorithm variables
 var adam_beta_1 = [0.27, 0.27];
@@ -58,10 +58,11 @@ var lambda = 0.0;
 var epsilon = 0.00000000001;
 
 // Target position movement
-var dx = 0.05;
+var dx = 0.03;
 var dxStart = 0.05;
 var dy = 0;
 var targetAcceleration = 1.6;
+var targetMaxSpeed = 0.3;
 
 // Score
 var scoreboard = [0, 0];
@@ -343,6 +344,9 @@ function updateOmegas(arm, points) {
 
 	if ( error <= optimizationStop[arm]) {
 		dx = (-1) * dx * targetAcceleration; // going faster and faster
+		if ( Math.abs(dx) > targetMaxSpeed ) {
+			dx = targetMaxSpeed * Math.sign(dx);
+		}
 		dy = (Math.random() - 0.5) * 2.0 * 0.5
 		// reset optimization
 		resetOptimization();
@@ -454,11 +458,13 @@ function moveTargetPos(ctx) {
 		newTX = 100;
 		scoreboard[0]++;
 		dx = Math.sign(dx) * dxStart;
+	        resetOptimization();
 	}
 	if (newTX < 0) {
 		newTX = 0;
 		scoreboard[1]++;
 		dx = Math.sign(dx) * dxStart;
+		resetOptimization();
 	}
 	targetPos[0] = newTX;
 	targetPos[1] = newTY;
