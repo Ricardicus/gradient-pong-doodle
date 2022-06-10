@@ -1,471 +1,134 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Gradient doodle</title>
+<title>Gradient ping pong doodle</title>
 </head>
 <body>
 <div id="cdiv">
-<h2>Gradient doodle</h2>
+<h2>Gradient ping pong doodle</h2>
 <pre>
-The angle arm is trying to reach the red dot.
-It does so by attempting to find its correct angle values.
+The angle arsms are trying to reach the red ball and play
+ping pong. It does so by attempting to find its correct angle values.
 This process is done using gradient optimization schemes.
 Sometimes it works, sometimes it doesn't. It is an open problem.
-One can use different hyperparameters to help it along.
+One can use different hyperparameters to help each of the arms along.
+What optimization strategy will win?
 </pre>
-<canvas id ="tcanvas" style="font-family: 'Hammersmith One', sans-serif; border: 1px solid black; border-radius: 4px;">
+<div style="width=100%">
+<canvas id ="tcanvas" style="font-family: 'Hammersmith One', sans-serif; border: 1px solid black; border-radius: 4px;"
+	width="700">
 Your browser does not support the HTML5 canvas tag.</canvas>
+<h2 id="scoreboard"></h2>
 </div>
+</div>
+<table>
+<tbody>
+<tr>
+<td>
 <div>
-  <div id="omega-bars">
+  <div id="arm-1-omega-bars">
   </div>
   <table>
     <tbody>
       <tr>
         <td>Loss: </td>
-        <td><p id="loss"></p></td>
+        <td><p id="arm-1-loss"></p></td>
       </tr>
     </tbody>
   </table>
 <fieldset>
     <legend>Select optimization strategy:</legend>
     <div>
-      <input onchange="newOptStrat();" type="radio" id="gradient-descent-select" value="basic" name="opt"
+      <input onchange="newOptStrat(0);" type="radio" id="arm-1-gradient-descent-select" value="basic" name="arm0opt"
              checked>
       <label for="huey">Gradient Descent <a href="https://en.wikipedia.org/wiki/Gradient_descent">[link]</a></label>
     </div>
     <div>
-      <input onchange="newOptStrat();" type="radio" id="adam-select" value="adam" name="opt">
+      <input onchange="newOptStrat(0);" type="radio" id="arm-1-adam-select" value="adam" name="arm0opt">
       <label for="dewey">ADAM <a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam">[link]</a></label>
     </div>
     <div>
-      <input onchange="newOptStrat();" type="radio" id="adagrad-select" value="adagrad" name="opt">
+      <input onchange="newOptStrat(0);" type="radio" id="arm-1-adagrad-select" value="adagrad" name="arm0opt">
       <label for="adagrad">AdaGrad <a href="https://optimization.cbe.cornell.edu/index.php?title=AdaGrad">[link]</a></label>
     </div>
 </fieldset>
 
-<input type="range" oninput="newLearningRate();"
-         min="0" max="100" id="learning-rate">
-<label id="label-learning-rate" for="learning-rate">Learning rate</label><br/>
-<p id="debug"></p>
+<input type="range" oninput="newLearningRate(0);"
+         min="0" max="100" id="arm-1-learning-rate">
+<label id="arm-1-label-learning-rate" for="arm-1-learning-rate">Learning rate</label><br/>
+<p id="arm-1-debug"></p>
 <br/>
-<div id="adam-inputs"> 
-   <pre>
+<div id="arm-1-adam-inputs"> 
+<input type="range" oninput="newADAMBeta1(0);"
+         min="0" max="100" id="arm-1-adam-beta-1">
+  <label id="arm-1-label-adam-beta-1" for="adam-beta-1">ADAM β1</label><br/>
+<input type="range" oninput="newADAMBeta2(0);"
+         min="0" max="100" id="arm-1-adam-beta-2">
+  <label id="arm-1-label-adam-beta-2" for="adam-beta-2">ADAM β2</label><br/>
+</div>
+</td>
+<td>
+
+
+<div>
+  <div id="arm-2-omega-bars">
+  </div>
+  <table>
+    <tbody>
+      <tr>
+        <td>Loss: </td>
+        <td><p id="arm-2-loss"></p></td>
+      </tr>
+    </tbody>
+  </table>
+<fieldset>
+    <legend>Select optimization strategy:</legend>
+    <div>
+      <input onchange="newOptStrat(1);" type="radio" id="arm-2-gradient-descent-select" value="basic" name="arm1opt"
+             checked>
+      <label for="huey">Gradient Descent <a href="https://en.wikipedia.org/wiki/Gradient_descent">[link]</a></label>
+    </div>
+    <div>
+      <input onchange="newOptStrat(1);" type="radio" id="arm-2-adam-select" value="adam" name="arm1opt">
+      <label for="dewey">ADAM <a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam">[link]</a></label>
+    </div>
+    <div>
+      <input onchange="newOptStrat(1);" type="radio" id="arm-2-adagrad-select" value="adagrad" name="arm1opt">
+      <label for="adagrad">AdaGrad <a href="https://optimization.cbe.cornell.edu/index.php?title=AdaGrad">[link]</a></label>
+    </div>
+</fieldset>
+
+<input type="range" oninput="newLearningRate(1);"
+         min="0" max="100" id="arm-2-learning-rate">
+<label id="arm-2-label-learning-rate" for="arm-2-learning-rate">Learning rate</label><br/>
+<p id="arm-2-debug"></p>
+<br/>
+<div id="arm-2-adam-inputs"> 
+   <input type="range" oninput="newADAMBeta1(1);"
+         min="0" max="100" id="arm-2-adam-beta-1">
+  <label id="arm-2-label-adam-beta-1" for="arm-2-adam-beta-1">ADAM β1</label><br/>
+<input type="range" oninput="newADAMBeta2(1);"
+         min="0" max="100" id="arm-2-adam-beta-2">
+  <label id="arm-2-label-adam-beta-2" for="arm-2-adam-beta-2">ADAM β2</label><br/>
+</div>
+
+
+
+</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<pre>
 ADAM requires a higher value for the "learning rate" hyperparameter than the basic Gradient Descent.
 So you typically need to raise it a bit after switching from Gradient Descent.
 </pre>
-<input type="range" oninput="newADAMBeta1();"
-         min="0" max="100" id="adam-beta-1">
-  <label id="label-adam-beta-1" for="adam-beta-1">ADAM β1</label><br/>
-<input type="range" oninput="newADAMBeta2();"
-         min="0" max="100" id="adam-beta-2">
-  <label id="label-adam-beta-2" for="adam-beta-2">ADAM β2</label><br/>
-</div>
+
 <br/>
-Link to source code: <a href="https://github.com/Ricardicus/gradient-doodle">gradient-doodle</a>
+Link to source code: <a href"https://github.com/Ricardicus/gradient-pong-doodle">gradient-doodle</a>
 
 </div>
 </body>
-<script>
-// handling the focus of the keylistener (solution found in thread on stackoverflow.com)
-var lastDownTarget, canvas;
-var radiuses = [90, 70, 50, 30]; // Percent from 0 to R
-var startPos = [50, 10]; // percent of X and Y
-var targetPos = [50, 50]; // Percent from 0-X and 0-Y
-
-// Total pixel map size, max unit of distance, set by reading canvas properties
-var XTot;
-var YTot;
-var R;
-
-// Percent of 2 * PI
-var omegas = [];
-var omegasStart = 35; // Initial value for all angles (percent of 2*PI)
-
-// Optimization choices
-var ADAM = Symbol("ADAM");
-var BASIC = Symbol("BASIC");
-var ADAGRAD = Symbol("ADAGRAD");
-
-var optimizationStrategy = BASIC;
-var optimizationStop = 4;
-var optimizationStopReached = false;
-
-// Gradient decent delta update
-var learningRate = 0.003288;
-
-// Some thresholds for input
-var learningRateMin = 0.00000001;
-var learningRateMax = 10.0;
-
-var updateSpeed = 10;
-
-// Adam optimization algorithm variables
-var adam_beta_1 = 0.27;
-var adam_beta_1_min = 0.0001;
-var adam_beta_1_max = 0.98;
-var adam_beta_2 = 0.99;
-var adam_beta_2_min = 0.001;
-var adam_beta_2_max = 0.9999;
-var adam_epsilon = 0.000001;
-var adam_v = []; // one per omega
-var adam_momentum_omegas = []; // one per omega
-
-// Ada grad optimization parameters
-var adagrad_G = [];
-
-// Regularization
-var lambda = 0.0;
-
-// To avoid div by zero
-var epsilon = 0.00000000001;
-
-function updateLearningRateBar() {
-    document.getElementById("label-learning-rate").innerHTML = "Learning rate: " + 
-         Number.parseFloat(learningRate).toPrecision(4);
- 
-    var targetE = Math.log10(learningRate);
-    var minv = Math.log10(learningRateMin);
-    var maxv = Math.log10(learningRateMax);
-    var scale = (maxv-minv)/100.0;
-
-    var val = parseInt( (targetE - minv) / scale );
-    document.getElementById("learning-rate").value = val;
-}
-
-function newOptStrat() {
-  if (document.getElementById("adam-select").checked) {
-    optimizationStrategy = ADAM;
-    learningRate = 0.3943;
-    updateLearningRateBar();
-
-    // Showing inputs    
-    document.getElementById("adam-inputs").style.display = "inherit";
-  } else if (document.getElementById("adagrad-select").checked) {
-    learningRate = 0.3943;
-    updateLearningRateBar();
-
-    optimizationStrategy = ADAGRAD;
-    document.getElementById("adam-inputs").style.display = "none";
- } else {
-    optimizationStrategy = BASIC;
-    document.getElementById("adam-inputs").style.display = "none";
-  }
-}
-
-function newADAMBeta1() {
-  var minv = Math.log10(adam_beta_1_min);
-  var maxv = Math.log10(adam_beta_1_max);
-  var scale = (maxv-minv)/100.0;
-
-  adam_beta_1 = Math.pow(10, minv + scale*(
-         document.getElementById("adam-beta-1").value));
-  document.getElementById("label-adam-beta-1").innerHTML = "ADAM β1: " + 
-         Number.parseFloat(adam_beta_1).toPrecision(4);
-}
-
-function newADAMBeta2() {
-  var minv = Math.log10(adam_beta_2_min);
-  var maxv = Math.log10(adam_beta_2_max);
-  var scale = (maxv-minv)/100.0;
-
-  adam_beta_2 = Math.pow(10, minv + scale*(
-         document.getElementById("adam-beta-2").value));
-  document.getElementById("label-adam-beta-2").innerHTML = "ADAM β2: " + 
-         Number.parseFloat(adam_beta_2).toPrecision(4);
-}
-
-function newLearningRate() {
-  var minv = Math.log10(learningRateMin);
-  var maxv = Math.log10(learningRateMax);
-  var scale = (maxv-minv)/100.0;
-
-  learningRate = Math.pow(10, minv + scale*(
-         document.getElementById("learning-rate").value));
-  document.getElementById("label-learning-rate").innerHTML = "Learning rate: " + 
-         Number.parseFloat(learningRate).toPrecision(4);
-}
-
-function newOmegas() {
-  for ( var i = 0; i < omegas.length; i++ ) {
-    omegas[i] = document.getElementById("omega-" + (i+1)).value;
-  }
-}
-
-function resetOptimization() {
-  optimizationStopReached = false;
-  adam_v = [];
-  adam_momentum_omegas = [];
-  adagrad_G = [];
-  omegas.forEach((a) => {
-    adam_v.push(0.0);
-    adam_momentum_omegas.push(0.0);
-    adagrad_G.push(0.0);
-  });
-}
-
-function resetOmegas() {
-  for (var i = 0; i < omegas.length; i++) {
-    omegas[i] = omegasStart;
-  }
-}
-
-function updateTargetPos(canvas, evt) {
-  var rect = canvas.getBoundingClientRect();
-  var ctx = canvas.getContext("2d");
-  XTot = canvas.width;
-  YTot = canvas.height;
-  
-  var mousePos = {
-    x: evt.clientX - rect.left,
-    y: evt.clientY - rect.top
-  };
-
-  if ( mousePos.x > 0 && mousePos.x < XTot &&
-       mousePos.y > 0 && mousePos.y < YTot ) {
-    targetPos = [100*mousePos.x/XTot, 100*mousePos.y/YTot];
-    resetOmegas();
-    resetOptimization();
-  }
-}
-
-function norm(p1, p2) {
-  var sum = 0.0;
-  for ( var i = 0; i < p1.length; i++ ) {
-    sum += Math.abs(p1[i]-p2[i]);
-  }
-  return sum;
-}
-
-function omega_sum_order(n, omegas) {
-  var sum = -(n-1)*Math.PI;
-  for ( var i = 0; i < n; i++ ) {
-    sum += omegas[i]*0.01*2*Math.PI;
-  }
-  return sum;
-}
-
-function de_dpnx_domega_q(omegas, radiuses, R, q, n) {
-  if ( q > n ) return 0.0;
-  return de_dpnx_domega_q(omegas, radiuses, R, q, n-1) - radiuses[n-1]*0.01*R*Math.sin(omega_sum_order(n, omegas)) * Math.PI * 2 * 0.01;
-}
-
-function de_dpny_domega_q(omegas, radiuses, R, q, n) {
-  if ( q > n ) return 0.0;
-  return de_dpny_domega_q(omegas, radiuses, R, q, n-1) + radiuses[n-1]*0.01*R*Math.cos(omega_sum_order(n, omegas)) * Math.PI * 2 * 0.01;
-}
-
-function de_domega_q(point, target, radiuses, omegas, R, q) {
-  var n = omegas.length;
-      return (point[0]-target[0]) * de_dpnx_domega_q(omegas, radiuses, R, q, n) +
- (point[1]-target[1]) * de_dpny_domega_q(omegas, radiuses, R, q, n);
-}
-
-function p_n_x(omegas, radiuses, R, n) {
-  var pnx = radiuses[n-1]*0.01*R*Math.cos(omega_sum_order(n, omegas));
-  if ( n > 1 ) {
-    pnx += p_n_x(omegas, radiuses, R, n-1);
-  }
-  return pnx;
-}
-
-function p_n_y(omegas, radiuses, R, n) {
-  var pny = radiuses[n-1]*0.01*R*Math.sin(omega_sum_order(n, omegas));
-  if ( n > 1 ) {
-    pny += p_n_y(omegas, radiuses, R, n-1);
-  }
-  return pny;
-}
-
-function mean_square_loss(pos, target) {
-  return Math.pow(norm(pos, target), 2) * 0.5;
-}
-
-function populateValues() {
-      var newHTML = "<pre>Angles Ω:s</pre>";
-  for ( var i = 0; i < omegas.length; i ++) {
-    newHTML += '<input type="range" oninput="newOmegas();"\
-         min="0" max="100" id="omega-' + (i+1) + '">\
-  <label id="label-bar-'+(i+1)+'" for="omega-" '+(i+1)+'>Ω' + (i+1) + '</label><br/>';
-  }
-  document.getElementById("omega-bars").innerHTML = newHTML;
-  document.getElementById("label-learning-rate").innerHTML = "Learning rate: " + Number.parseFloat(learningRate).toPrecision(4);
-  document.getElementById("label-adam-beta-1").innerHTML = "ADAM β1: " + Number.parseFloat(adam_beta_1).toPrecision(4);
-  document.getElementById("label-adam-beta-2").innerHTML = "ADAM β2: " + Number.parseFloat(adam_beta_2).toPrecision(4);
- 
-  var targetE = Math.log10(learningRate);
-  var minv = Math.log10(learningRateMin);
-  var maxv = Math.log10(learningRateMax);
-  var scale = (maxv-minv)/100.0;
-
-  var val = parseInt( (targetE - minv) / scale );
-  document.getElementById("learning-rate").value = val;
-
-  targetE = Math.log10(adam_beta_1);
-  var minv = Math.log10(adam_beta_1_min);
-  var maxv = Math.log10(adam_beta_1_max);
-  var scale = (maxv-minv)/100.0;
-  
-  val = parseInt( (targetE - minv) / scale );
-  document.getElementById("adam-beta-1").value = val;   
-  
-  targetE = Math.log10(adam_beta_2);
-  minv = Math.log10(adam_beta_2_min);
-  maxv = Math.log10(adam_beta_2_max);
-  scale = (maxv-minv)/100.0;
-  
-  val = parseInt( (targetE - minv) / scale );
-  document.getElementById("adam-beta-2").value = val;
-
-  // check optimization
-  if ( document.getElementById("adam-select").checked ) {
-    optimizationStrategy = ADAM;
-  } else if ( document.getElementById("adagrad-select").checked )  {
-    optimizationStrategy = ADAGRAD;
-  } else {
-    optimizationStrategy = BASIC;
-  }
-}
-
-window.onload = function(e){
-	canvas = document.getElementById("tcanvas");
-
-	document.addEventListener('mousedown',function(event){
-		lastDownTarget = event.target;
-      updateTargetPos(canvas, event);
-      drawit();
-   },false);
-  
-   document.addEventListener('keydown',function(event){
-		if(lastDownTarget == canvas){
-			keypressed(event);
-		}
-	},false);
-
-   // By default, omegas go to 35
-   for (var i = 0; i < radiuses.length; i++) {
-     omegas.push(omegasStart);
-   }
-
-   populateValues();
-   resetOptimization();
-
-   var ctx = canvas.getContext("2d");
-   XTot = canvas.width;
-   YTot = canvas.height;
-   R = YTot * 0.5;
-
-   setInterval( loop, updateSpeed );
-}
-
-function getPoints() {
-  var points = [];
-  for (var n = 1; n <= omegas.length; n++ ) {
-    points.push(
-      [
-        parseInt(
-          startPos[0] * 0.01 * XTot + p_n_x(omegas, radiuses, R, n)
-        ),
-        parseInt(
-          startPos[1] * 0.01 * YTot + p_n_y(omegas, radiuses, R, n)
-        )
-      ]
-    );
-  }
-  return points;
-}
-
-function updateOmegas(points) {
-   // The objective is for x3 to reach the target
-   var point = points[omegas.length-1];
-   var target = [targetPos[0]*0.01*XTot, targetPos[1]*0.01*YTot];
-   var error = mean_square_loss(point, target);
-   
-   if ( error > optimizationStop && optimizationStopReached ) {
-     // Stay here 
-     return;
-   } else if ( error <= optimizationStop ) {
-     optimizationStopReached = true;
-   } else {
-     optimizationStopReached = false;
-   }
-   document.getElementById("loss").innerHTML = Number.parseFloat(error).toPrecision(4) + ( optimizationStopReached ? " [within stopping condition ("+
-   Number.parseFloat(optimizationStop).toPrecision(2)+")]" : "" );
-   var de_domegas = [];
-   for (var i = 0; i < omegas.length; i++) {
-     var de_domega_i = de_domega_q(point, target, radiuses, omegas, R, i+1);
-     de_domegas.push(de_domega_i);
-   }
-
-   if ( optimizationStrategy == BASIC ) {
-     for (var i = 0; i < omegas.length; i++ ) {
-       omegas[i] = omegas[i] - learningRate * de_domegas[i] - lambda*Math.abs(omegas[i]);
-     }
-   } else if ( optimizationStrategy == ADAM ) {
-     for (var i = 0; i < omegas.length; i++ ) {
-       adam_v[i] = adam_beta_2 * adam_v[i] + (1.0 - adam_beta_2) * Math.pow(de_domegas[i],2);
-       adam_momentum_omegas[i] = adam_beta_1 * adam_momentum_omegas[i] + (1.0 - adam_beta_1) * de_domegas[i];
-       vhat = adam_v[i] / ( 1.0 - adam_beta_2 );
-       mhat = adam_momentum_omegas[i] / ( 1.0 - adam_beta_1 );
-       omegas[i] = omegas[i] - learningRate * mhat / ( Math.sqrt(vhat) + adam_epsilon );
-     }
-   } else if ( optimizationStrategy == ADAGRAD ) {
-     for (var i = 0; i < omegas.length; i++ ) {
-       var g = de_domegas[i];
-       adagrad_G[i] += Math.pow(g, 2);
-       omegas[i] = omegas[i] - learningRate * ( (1.0 / Math.sqrt(adagrad_G[i] + epsilon)) * de_domegas[i] );
-     }
-   } else {
-     console.log("no opt..");
-   }
-
-   for (var i = 0; i < omegas.length; i++ ) {
-     document.getElementById("omega-"+(i+1)).value=omegas[i];
-   }
-}
-
-function debugPrint() {
-  for (var i = 0; i < omegas.length; i++) {
-    document.getElementById("label-bar-" + (i+1)).innerHTML = "Ω"+(i+1)+": " + Number.parseFloat(omegas[i] * 0.01 * 360).toFixed(2) + " °";  
-  }
-}
-
-function loop() {
-  var points = getPoints();
-  drawit(points);
-  updateOmegas(points);
-  debugPrint();
-}
-
-// the timer identifier used for handling the restart calls.  
-var timerId = 0;
-
-// drawing the game on the canvas according to the content of the nxn-matrix 'blocks'
-function drawit(points){
-	var ctx = canvas.getContext("2d");
-
-   ctx.clearRect(0,0,canvas.width,canvas.height);
-   ctx.beginPath();
-   ctx.moveTo(parseInt(startPos[0]*XTot*0.01), parseInt(startPos[1]*YTot*0.01));
-   if ( typeof points === "undefined" ) return;
-   for ( var i = 0; i < points.length; i++ ) {
-     ctx.lineTo(points[i][0],points[i][1]);
-   }
-   ctx.stroke();
-   
-   // Draw target
-   ctx.beginPath();
-   ctx.arc(targetPos[0]*0.01*XTot, targetPos[1]*0.01*YTot, 4, 0, 2*Math.PI, false);
-   ctx.fillStyle = 'red';
-   ctx.fill();
-   ctx.stroke();
-   ctx.closePath();
-}
-
-// key pressed handling
-function keypressed(event){
-	var y = event.keyCode;
-}
-
+<script src="gradient-pong-doodle.js">
 </script>
 </html>
