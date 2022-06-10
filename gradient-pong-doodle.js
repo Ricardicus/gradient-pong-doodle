@@ -33,7 +33,7 @@ var learningRate = [0.003288, 0.003288];
 
 // Some thresholds for input
 var learningRateMin = 0.00000001;
-var learningRateMax = 10.0;
+var learningRateMax = 100.0;
 
 var updateSpeed = 5;
 
