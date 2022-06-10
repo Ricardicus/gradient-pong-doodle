@@ -406,6 +406,9 @@ function loop() {
 
 function relaxArm(arm) {
 	for (var i = 0; i < omegas[arm].length; i++) {
+		omegas[arm][i] = (100*10 + omegas[arm][i]) % 100;
+	}
+	for (var i = 0; i < omegas[arm].length; i++) {
 		omegas[arm][i] = omegas[arm][i] + (35 - omegas[arm][i]) * 0.01;
 	}
 }
