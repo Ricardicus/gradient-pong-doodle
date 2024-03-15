@@ -66,6 +66,8 @@ var targetMaxSpeed = 0.3;
 
 // Score
 var scoreboard = [0, 0];
+var hits = 0;
+var maxHits = 0;
 
 function updateLearningRateBar(arm) {
 	document.getElementById("arm-" + (arm + 1) + "-label-learning-rate").innerHTML = "Learning rate: " +
@@ -322,6 +324,18 @@ function getPoints(arm) {
 	return points;
 }
 
+function updateHits() {
+	if (hits > maxHits) {
+		maxHits = hits;
+	}
+	document.getElementById("hits").innerHTML = "Hits: " + hits + ", max: " + maxHits;
+}
+
+function resetHits() {
+	hits = 0;
+	document.getElementById("hits").innerHTML = "Hits: " + hits + ", max: " + maxHits;
+}
+
 function updateOmegas(arm, points) {
 	// The objective is for x3 to reach the target
 	var point = points[omegas[arm].length - 1];
@@ -350,6 +364,7 @@ function updateOmegas(arm, points) {
 		dy = (Math.random() - 0.5) * 2.0 * 0.5
 		// reset optimization
 		resetOptimization();
+		hits += 1;
 	}
 
 	document.getElementById("arm-" + (arm + 1) + "-loss").innerHTML = Number.parseFloat(error).toPrecision(4);
@@ -401,6 +416,7 @@ function loop() {
 	drawTarget(ctx);
 	moveTargetPos(ctx);
 	updateScoreBoard();
+	updateHits();
 	loopCount = (loopCount + 1) % 100000;
 }
 
@@ -461,13 +477,15 @@ function moveTargetPos(ctx) {
 		newTX = 100;
 		scoreboard[0]++;
 		dx = Math.sign(dx) * dxStart;
-	        resetOptimization();
+		resetOptimization();
+		resetHits();
 	}
 	if (newTX < 0) {
 		newTX = 0;
 		scoreboard[1]++;
 		dx = Math.sign(dx) * dxStart;
 		resetOptimization();
+		resetHits();
 	}
 	targetPos[0] = newTX;
 	targetPos[1] = newTY;
