@@ -3,7 +3,35 @@
 <head>
 <title>Gradient ping pong doodle</title>
 </head>
-<body>
+<style>
+/* White theme */
+.white-theme {
+    background-color: white;
+    color: black;
+}
+
+/* Black theme */
+.black-theme {
+    background-color: black;
+    color: white;
+}
+
+canvas {
+    font-family: 'Hammersmith One', sans-serif;
+    border-radius: 4px;
+    width: 700px;
+}
+
+body.black-theme > div > div > canvas {
+  border: 1px solid white;
+}
+
+body.white-theme > div > div > canvas {
+  border: 1px solid black;
+}
+
+</style>
+<body class="white-theme">
 <div id="cdiv">
 <h2>Gradient ping pong doodle</h2>
 <pre>
@@ -11,11 +39,11 @@ The angle arsms are trying to reach the red ball and play
 ping pong. It does so by attempting to find its correct angle values.
 This process is done using gradient optimization schemes.
 Sometimes it works, sometimes it doesn't. It is an open problem.
-One can use different hyperparameters to help each of the arms along.
-What optimization strategy will win?
+One can use different hyperparameters to assist each of the arms.
+Which optimization strategy will win?
 </pre>
 <div style="width=100%">
-<canvas id ="tcanvas" style="font-family: 'Hammersmith One', sans-serif; border: 1px solid black; border-radius: 4px;"
+<canvas id ="tcanvas"
 	width="700">
 Your browser does not support the HTML5 canvas tag.</canvas>
 <h2 id="scoreboard"></h2>
@@ -55,16 +83,16 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 </fieldset>
 
 <input type="range" oninput="newLearningRate(0);"
-         min="0" max="100" id="arm-1-learning-rate">
+         min="0" max="100" step="0.05" id="arm-1-learning-rate">
 <label id="arm-1-label-learning-rate" for="arm-1-learning-rate">Learning rate</label><br/>
 <p id="arm-1-debug"></p>
 <br/>
 <div id="arm-1-adam-inputs"> 
 <input type="range" oninput="newADAMBeta1(0);"
-         min="0" max="100" id="arm-1-adam-beta-1">
+         min="0" max="100" step="0.05" id="arm-1-adam-beta-1">
   <label id="arm-1-label-adam-beta-1" for="adam-beta-1">ADAM β1</label><br/>
 <input type="range" oninput="newADAMBeta2(0);"
-         min="0" max="100" id="arm-1-adam-beta-2">
+         min="0" max="100" step="0.05" id="arm-1-adam-beta-2">
   <label id="arm-1-label-adam-beta-2" for="adam-beta-2">ADAM β2</label><br/>
 </div>
 </td>
@@ -100,16 +128,16 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 </fieldset>
 
 <input type="range" oninput="newLearningRate(1);"
-         min="0" max="100" id="arm-2-learning-rate">
+         min="0" max="100" step="0.05" id="arm-2-learning-rate">
 <label id="arm-2-label-learning-rate" for="arm-2-learning-rate">Learning rate</label><br/>
 <p id="arm-2-debug"></p>
 <br/>
 <div id="arm-2-adam-inputs"> 
    <input type="range" oninput="newADAMBeta1(1);"
-         min="0" max="100" id="arm-2-adam-beta-1">
+         min="0" max="100" step="0.05" id="arm-2-adam-beta-1">
   <label id="arm-2-label-adam-beta-1" for="arm-2-adam-beta-1">ADAM β1</label><br/>
 <input type="range" oninput="newADAMBeta2(1);"
-         min="0" max="100" id="arm-2-adam-beta-2">
+         min="0" max="100" step="0.05" id="arm-2-adam-beta-2">
   <label id="arm-2-label-adam-beta-2" for="arm-2-adam-beta-2">ADAM β2</label><br/>
 </div>
 
@@ -123,13 +151,27 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 <pre>
 ADAM requires a higher value for the "learning rate" hyperparameter than the basic Gradient Descent.
 So you typically need to raise it a bit after switching from Gradient Descent.
+With each hit, the ball moves faster. After a threshold, the speed increases linearly but slowly.
 </pre>
 
 <br/>
 Link to source code: <a href="https://github.com/Ricardicus/gradient-pong-doodle">gradient-pong-doodle</a>
+<br/><br/>
+<button onclick="toggleTheme()">Toggle Theme</button>
 
 </div>
 </body>
 <script src="gradient-pong-doodle.js">
 </script>
+<script>
+function toggleTheme() {
+    const body = document.body;
+    body.classList.toggle('white-theme');
+    body.classList.toggle('black-theme');
+    pongDoodleToggleTheme();
+}
+</script>
 </html>
+<body class="body-white-theme">
+  <!-- Your content here -->
+</body>
