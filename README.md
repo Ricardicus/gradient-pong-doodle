@@ -34,12 +34,15 @@ dP_x[n]/dOmega_q = 0 if q > n otherwise dP_x[n-1]/dOmega_q - r_n * sin( sum(omeg
 dP_y[n]/dOmega_q = 0 if q > n otherwise dP_y[n-1]/dOmega_q + r_n * cos( sum(omegas up to n) + (n-1) * pi) 
 ```
 
-# Test
+# Demo
 
 Download the repo and open the index.html.
 
 Or visit this link to where I host the project: [demo](https://me.ricardicus.se/33d0ddd832679c4cb246577cbaf22e9b)
 
+## 3D version
+
+I also made a 3D variant of this doodle: [https://me.ricardicus.se/25b06a79ed956e12a19cd8686d08dbae](https://me.ricardicus.se/25b06a79ed956e12a19cd8686d08dbae)
 
 
 
